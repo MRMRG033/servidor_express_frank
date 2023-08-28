@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//model del usuario
+//nombre
+//compras
+//correo
+//contrasena
+//historial
+//ip
+//direccion
+//genero
+//telefono
+//pais || region
+//fecha de nacimiento
+
+
+model User  {
+  id          Int       @id @default(autoincrement())
+  name        String?   @db.VarChar(255)
+  email       String    @unique @db.VarChar(255)
+  password    String    @db.VarChar(255)
+
+  tickets     Ticket[]
+}
+model Producto {
+  id          Int     @id @default(autoincrement())
+  published   Boolean @default(false)
+  precio      Int     @db.Integer
+  imagen      String? @db.VarChar(255)
+  descripcion String  @db.Text
+  cepa        String  @db.VarChar(255)
+  inventario  Int     @db.Integer
+  ticketItem  TicketItem[]
+}
+
+model Ticket {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+  userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id])
+  ticketItem  TicketItem[]
+}
+
+model TicketItem{
+  id        Int      @id @default(autoincrement())
+  productId Int
+  ticketId  Int
+  producto  Producto @relation(fields: [productId], references: [id])
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+
+}
