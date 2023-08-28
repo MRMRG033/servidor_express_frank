@@ -10,20 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//model del usuario
-//nombre
-//compras
-//correo
-//contrasena
-//historial
-//ip
-//direccion
-//genero
-//telefono
-//pais || region
-//fecha de nacimiento
-
-
 model User  {
   id          Int       @id @default(autoincrement())
   name        String?   @db.VarChar(255)
@@ -34,6 +20,7 @@ model User  {
 }
 model Producto {
   id          Int     @id @default(autoincrement())
+  name        String
   published   Boolean @default(false)
   precio      Int     @db.Integer
   imagen      String? @db.VarChar(255)

@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "name": "Hongo Magico",
+        "published": true,
+        "precio": 1500,
+        "imagen": "no hay",
+        "descripcion": "no hay",
+        "cepa": "la mejor",
+        "inventario": 10
+    }
+]

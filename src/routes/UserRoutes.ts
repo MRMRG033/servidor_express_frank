@@ -11,4 +11,6 @@ router.get('/:id', (req, res) => {
     res.send(`Detalles del usuario con ID ${userId}`);
 });
 
+
+
 export default router;
