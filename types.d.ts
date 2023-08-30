@@ -1,11 +1,12 @@
+import  {Ticket} from "@prisma/client"
 export type UserRol = 'normal' | 'super' | 'admin'
 
 export interface UserProfile{
     id: number
-    name: String
-    email: String
-    password: String
-    tickets: []
+    name: string
+    email: string
+    password: string
+    tickets?: Ticket[]
 }
 
 export interface Producto {
@@ -13,18 +14,25 @@ export interface Producto {
     name: string
     published: boolean
     precio: number
-    imagen: string
+    imagen: string | null
     descripcion: string
     cepa: string
     inventario: number
+    ticket?: Ticket[]
 }
 
+export type productoItem = Pick<Producto, "name" | "precio" | "cepa" >
 
 export interface Ticket{
     id: number
     createdAt: string
     userId: number
-    ticketLista: []
+    productos: productoItem[]
 }
 
-export type NewProductoEntry = Omit<Producto, 'id'>
+export type UserProfileWithTickets = UserProfile & {
+    tickets: Ticket[]
+}
+export type UserProfileWithoutTicket = Omit<UserProfile, 'tickets'>
+export type NewProductoEntry = Omit<Producto, 'id' | 'ticket'>
+export type NewTicketEntry =  Pick<Ticket, 'createdAt'| 'userId' | 'productos' >

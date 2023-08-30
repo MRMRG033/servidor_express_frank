@@ -1,29 +1,48 @@
 import { Producto, NewProductoEntry } from '../../types'
-import productos from './productos.json'
+import {PrismaClient } from '@prisma/client'
 
-export const getProductos = (): Producto[] => productos;
+const prisma = new PrismaClient()
 
-export const getProductoById = (id: number): Producto | undefined =>{
-    const producto = productos.find(p => p.id === id)
-    if(producto !== null){
-        return producto
-    }
-    return undefined
+
+//*terminado
+export const getProductos = async (): Promise<Producto[]> => {
+    return await prisma.producto.findMany()
+};
+
+//*terminado
+export const getProductoById = async (id: number): Promise<Producto | null> =>{
+    const productoById = await prisma.producto.findUnique({
+        where: {
+            id: id
+        }
+    })
+    return productoById;
 }
-export const createProducto = (newProductoEntry : NewProductoEntry): Producto=>{
-    const newProducto = {
-        id: Math.max(...productos.map(p=> p.id))+1,
-        ...newProductoEntry
-    }
-    productos.push(newProducto)
-    return newProducto
-}
 
-export const deleteProcuto = (id: number): Producto | undefined=>{
-    const index = productos.findIndex(p=> p.id === id);
-    if(index !== -1){
-        console.log(`producto eliminado `)
-        return productos.splice(index, 1)[0]
-    }
-    return undefined    
+//*terminado
+export const createProducto = async (newProductoEntry: NewProductoEntry): Promise<Producto> => {
+    const newProducto = await prisma.producto.create({
+      data: newProductoEntry,
+    });
+    return newProducto;
+};
+
+//terminado
+export const deleteProducto = async (id: number): Promise<Producto | null> =>{
+    const deleteProducto = await prisma.producto.delete({
+        where: {
+            id: id
+        }
+    });
+    return deleteProducto;
+}
+//*testear
+export const putProducto = async (id: number, putProductoEntry: NewProductoEntry): Promise<Producto | null> =>{
+    const actualizarProducto = await prisma.producto.update({
+        where:  {
+            id: id
+        },
+        data: putProductoEntry
+    })
+    return actualizarProducto;
 }
